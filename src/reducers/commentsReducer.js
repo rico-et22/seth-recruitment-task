@@ -5,6 +5,17 @@ const commentReducer = (state = initialState, action) => {
       const newState = state.concat(action.payload)
       return [...new Set(newState)];
     }
+    case "comments/updated": {
+      return state.map((item) => {
+        if (item.id !== action.payload.id) {
+          return item
+        }
+        return {
+          ...item,
+          ...action.payload
+        }
+      })
+    }
     case "comments/removed":
       return [...state.filter((comment) => comment !== action.payload)];
     default:

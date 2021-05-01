@@ -46,6 +46,9 @@ const Table = styled.table`
     height: 3.5rem;
     padding: .5rem 1rem;
   }
+  td:nth-of-type(5) {
+    white-space: pre;
+  }
 `;
 
 const ReusableTable = (props) => {

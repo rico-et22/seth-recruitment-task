@@ -14,11 +14,12 @@ const CommentList = () => {
       <ReusableTable>
         <thead>
           <tr>
-            <th>ID artykułu</th>
             <th>ID komentarza</th>
+            <th>ID artykułu</th>
             <th>Nazwa użytkownika</th>
             <th>E-mail użytkownika</th>
             <th>Treść</th>
+            <th>Akcje</th>
           </tr>
         </thead>
         <tbody>
