@@ -34,7 +34,7 @@ const ErrorMessage = (props) => {
       <Header>
         {status === "error" && 'Wystąpił błąd ładowania danych.'}
         {status === "loading" && 'Trwa ładowanie danych...'}
-        {status === "noItems" && 'Brak książek w rejestrze.'}
+        {status === "noItems" && 'Brak komentarzy w rejestrze.'}
       </Header>
     </Wrapper>
   )
