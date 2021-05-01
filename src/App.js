@@ -22,7 +22,7 @@ function App() {
       })
       .catch((err) => {if (err) setError(true)})
     setIsLoading(false)
-  }, [])
+  }, [dispatch])
   return (
     <div className="app">
       <div className="app-container">
