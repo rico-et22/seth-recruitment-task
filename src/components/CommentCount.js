@@ -11,9 +11,9 @@ const CommentCount = () => {
   const commentsState = useSelector((state) => state.comments);
   return (
     <Wrapper>
-      <div>
+      {commentsState.length > 0 && (<div>
         <strong>{commentsState.length}</strong> komentarzy
-      </div>
+      </div>)}
     </Wrapper>
   )
 }
