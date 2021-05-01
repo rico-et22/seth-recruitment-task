@@ -4,6 +4,7 @@ import Header from './components/Header'
 import CommentList from './components/CommentList'
 import InfoMessage from './components/InfoMessage'
 import { useDispatch } from "react-redux";
+import CommentCount from './components/CommentCount';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
         {isLoading && <InfoMessage status="loading" />}
         {noItems && <InfoMessage status="noItems" />}
         {error && <InfoMessage status="error" />}
+        <CommentCount />
         <CommentList />
       </div>
     </div>
