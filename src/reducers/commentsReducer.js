@@ -1,12 +1,16 @@
-const initialState = [];
+const initialState = {
+  data: [],
+  isLoading: false,
+  isInitialized: false
+};
 const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case "comments/added": {
-      const newState = state.concat(action.payload)
-      return [...new Set(newState)];
+      const newState = state.data.concat(action.payload)
+      return {...state, isLoading: false, data: [...new Set(newState)]};
     }
     case "comments/updated": {
-      return state.map((item) => {
+      const mappedData = state.data.map((item) => {
         if (item.id !== action.payload.id) {
           return item
         }
@@ -15,9 +19,16 @@ const commentReducer = (state = initialState, action) => {
           ...action.payload
         }
       })
+      return {...state, data: mappedData}
     }
     case "comments/removed":
-      return [...state.filter((comment) => comment !== action.payload)];
+      return {...state, data: [...state.data.filter((comment) => comment !== action.payload)]};
+    case "comments/startedLoading":
+      return {...state, isLoading: true}
+    case "comments/finishedLoading":
+      return {...state, isLoading: false}
+    case "comments/initialized":
+      return {...state, isInitialized: true}
     default:
       return state;
   }

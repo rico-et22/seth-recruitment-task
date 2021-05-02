@@ -9,7 +9,8 @@ const Wrapper = styled.div`
 `
 
 const CommentList = () => {
-  const commentsState = useSelector((state) => state.comments);
+  const isInitialized = useSelector((state) => state.comments.isInitialized);
+  const commentsState = useSelector((state) => state.comments.data);
   if (commentsState.length > 0) return (
     <Wrapper>
       <ReusableTable>
@@ -32,11 +33,11 @@ const CommentList = () => {
         </tbody>
       </ReusableTable>
     </Wrapper>
-  ); else return (
+  ); else if (isInitialized) return (
     <Wrapper>
       <InfoMessage status="noItems" />
     </Wrapper>
-  );
+  ); else return null
 };
 
 export default CommentList;
