@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   border-radius: 1rem;
   padding: .5rem;
   max-width: 25rem;
-  margin: auto;
+  margin: 0 auto 1rem auto;
   border: 1px solid #FCA5A5;
   ${({status}) => 
     status === "error" &&
@@ -27,7 +27,7 @@ const Header = styled.h3`
   text-align: center;
 `
 
-const ErrorMessage = (props) => {
+const InfoMessage = (props) => {
   const {status} = props
   return (
     <Wrapper status={props.status}>
@@ -40,4 +40,4 @@ const ErrorMessage = (props) => {
   )
 }
 
-export default ErrorMessage
+export default InfoMessage

@@ -10,13 +10,12 @@ function App() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [noItems, setNoItems] = useState(false)
   useEffect(()=> {
+    setError(false)
     setIsLoading(true)
     fetch('https://jsonplaceholder.typicode.com/comments')
       .then((res) => res.json())
       .then((data) => {
-        if (data.length === 0) setNoItems(true)
         dispatch({ type: "comments/added", payload: data })
         setIsLoading(false)
       })
@@ -28,10 +27,9 @@ function App() {
       <div className="app-container">
         <Header />
         {isLoading && <InfoMessage status="loading" />}
-        {noItems && <InfoMessage status="noItems" />}
         {error && <InfoMessage status="error" />}
         <CommentCount />
-        <CommentList />
+        {!error && <CommentList />}
       </div>
     </div>
   );
