@@ -12,6 +12,16 @@ const Button = styled.button`
   &:disabled {
     opacity: .5;
   }
+  &.green {
+    background: #4ADE80;
+    padding: .5rem 1rem;
+    border-color: #86EFAC;
+    font-size: 1rem;
+    border-radius: .25rem;
+    &:active {
+      background: #BBF7D0;
+    }
+  }
   &.comment-tr:not(:last-of-type) {
     margin-bottom: .5rem;
   }

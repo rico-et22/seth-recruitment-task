@@ -1,8 +1,10 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import Header from './components/Header'
+import Container from './components/Container'
 import CommentList from './components/CommentList'
 import InfoMessage from './components/InfoMessage'
+import NewCommentForm from './components/NewCommentForm'
 import { useDispatch, useSelector } from "react-redux";
 import CommentCount from './components/CommentCount';
 
@@ -28,13 +30,14 @@ function App() {
   }, [dispatch])
   return (
     <div className="app">
-      <div className="app-container">
-        <Header />
+      <Header />
+      <Container>
         {isLoading && <InfoMessage status="loading" />}
         {error && <InfoMessage status="error" />}
         <CommentCount />
+        <NewCommentForm />
         {!error && !isLoading && <CommentList />}
-      </div>
+      </Container>
     </div>
   );
 }
