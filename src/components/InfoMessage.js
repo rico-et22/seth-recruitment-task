@@ -32,9 +32,9 @@ const InfoMessage = (props) => {
   return (
     <Wrapper status={props.status}>
       <Header>
-        {status === "error" && 'Wystąpił błąd ładowania danych.'}
+        {status === "error" && 'Błąd połączenia z bazą danych.'}
         {status === "loading" && 'Trwa ładowanie danych...'}
-        {status === "noItems" && 'Brak komentarzy w rejestrze.'}
+        {status === "noItems" && 'Brak komentarzy w bazie.'}
       </Header>
     </Wrapper>
   )
