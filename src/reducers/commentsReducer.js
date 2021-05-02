@@ -21,8 +21,8 @@ const commentReducer = (state = initialState, action) => {
       })
       return {...state, data: mappedData}
     }
-    case "comments/removed":
-      return {...state, data: [...state.data.filter((comment) => comment !== action.payload)]};
+    case "comments/deleted":
+      return {...state, data: [...state.data.filter((comment) => comment.id !== action.payload.id)]};
     case "comments/startedLoading":
       return {...state, isLoading: true}
     case "comments/finishedLoading":

@@ -34,7 +34,9 @@ const SingleComment = (props) => {
   const {postId, id, name, email, body} = props.commentData
   const [editMode, setEditMode] = useState(false)
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
-  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(false)
+  const [showEditErrorMessage, setShowEditErrorMessage] = useState(false)
+  const [showDeleteErrorMessage, setShowDeleteErrorMessage] = useState(false)
   const [editModeData, setEditModeData] = useState({})
   const dispatch = useDispatch()
   useEffect(() => {
@@ -47,7 +49,7 @@ const SingleComment = (props) => {
     })
   }, [postId, id, name, email, body])
   const saveEditedData = () => {
-    setShowErrorMessage(false)
+    setShowEditErrorMessage(false)
     setSaveButtonDisabled(true)
     fetch(`https://jsonplaceholder.typicode.com/comments/${editModeData.id}`, {
       method: 'PUT',
@@ -64,10 +66,28 @@ const SingleComment = (props) => {
         }
       })
       .catch(() => {
-        setShowErrorMessage(true)
+        setShowEditErrorMessage(true)
         setSaveButtonDisabled(false)
       })
   }
+  const deleteComment = () => {
+    setShowDeleteErrorMessage(false)
+    setDeleteButtonDisabled(true)
+    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      method: 'DELETE',
+    })
+    .then((response) => {
+      if (response.ok) {
+        setDeleteButtonDisabled(false)
+        dispatch({ type: "comments/deleted", payload: props.commentData })
+      }
+    })
+    .catch(() => {
+      setShowDeleteErrorMessage(true)
+      setDeleteButtonDisabled(false)
+    })
+  }
+
   if (editMode) return (
     <tr>
       <td>{id}</td>
@@ -107,7 +127,7 @@ const SingleComment = (props) => {
             setEditModeData({ ...editModeData, body: e.target.value })
           }
         />
-        {showErrorMessage && <ErrorMessage>Błąd zapisu.</ErrorMessage>}
+        {showEditErrorMessage && <ErrorMessage>Błąd zapisu.</ErrorMessage>}
       </td>
       <td>
         <ActionButton
@@ -129,9 +149,13 @@ const SingleComment = (props) => {
       <td>{postId}</td>
       <td>{name}</td>
       <td><a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">{email}</a></td>
-      <td>{body}</td>
+      <td>
+        {body}
+        {showDeleteErrorMessage && <ErrorMessage>Błąd usuwania.</ErrorMessage>}
+      </td>
       <td>
         <ActionButton onClick={() => setEditMode(true)} className="comment-tr">Edytuj</ActionButton>
+        <ActionButton onClick={() => deleteComment()} className="comment-tr" disabled={deleteButtonDisabled}>Usuń</ActionButton>
       </td>
     </tr>
   )
