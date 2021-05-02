@@ -63,7 +63,10 @@ const SingleComment = (props) => {
           setEditMode(false)
         }
       })
-      .catch(() => {setShowErrorMessage(true)})
+      .catch(() => {
+        setShowErrorMessage(true)
+        setSaveButtonDisabled(false)
+      })
   }
   if (editMode) return (
     <tr>
