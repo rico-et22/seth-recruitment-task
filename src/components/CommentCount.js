@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 `
 
 const CommentCount = () => {
-  const commentsState = useSelector((state) => state.comments);
+  const commentsState = useSelector((state) => state.comments.data);
   return (
     <Wrapper>
       {commentsState.length > 0 && (<div>
