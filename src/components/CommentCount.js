@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ActionButton from "./ActionButton";
 
 const Wrapper = styled.div`
-  padding: 1rem .5rem;
+  padding: 1rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

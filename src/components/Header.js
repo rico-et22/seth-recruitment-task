@@ -8,19 +8,19 @@ position: relative;
 z-index: 2;
 padding: 3rem 0;
 margin-bottom: 2rem;
+@media (max-width: 767.98px) {
+  padding: 3rem 1rem;
+}
 &::after {
   content: "";
   position: absolute;
   z-index: -1;
   bottom: -10px;
+  left: 0;
   height: 110%;
   width: 100%;
   opacity: 0.8;
-  
-  /* Declaring our shadow color inherit from the parent (button) */
   background: inherit;
-  
-  /* Blurring the element for shadow effect */
   -webkit-filter: blur(6px);
   -moz-filter: blur(6px);
   -o-filter: blur(6px);
@@ -35,6 +35,9 @@ const H1 = styled.h1`
   margin: 0;
   margin-bottom: .5rem;
   color: #eee;
+  @media (max-width: 767.98px) {
+    font-size: 2rem;
+  }
 `
 
 const Desc = styled.p`
@@ -44,6 +47,9 @@ const Desc = styled.p`
   text-transform: uppercase;
   letter-spacing: .5rem;
   text-align: center;
+  @media (max-width: 767.98px) {
+    font-size: .85rem;
+  }
 `
 
 const Header = (props) => {

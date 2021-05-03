@@ -26,7 +26,7 @@ const TextArea = styled.textarea`
 `
 
 const ErrorMessage = styled.p`
-  color: #EF4444;
+  color: #DC2626;
   font-weight: bold;
 `
 

@@ -3,9 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styled, {css} from "styled-components";
 import ActionButton from "./ActionButton";
 
-const Wrapper = styled.div`
-  padding: 0 .5rem;
-`
 const FormWrapper = styled.div`
   background: #fff;
   padding: 1rem;
@@ -22,6 +19,9 @@ const HeaderWrapper = styled.div`
 const H2 = styled.h2`
   font-size: 1.5rem;
   margin: 0;
+  @media (max-width: 767.98px) {
+    font-size: 1.25rem;
+  }
 `
 const CloseButton = styled.button`
   background: none;
@@ -37,24 +37,40 @@ const FormItem = styled.div`
   &:not(:last-of-type) {
     margin-bottom: 1rem;
   }
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 const Label = styled.p`
   margin: 0;
   width: 10rem;
+  @media (max-width: 767.98px) {
+    margin-bottom: .25rem;
+    margin-left: 0;
+  }
   ${(props) =>
     props.error &&
     css`
-      color: #EF4444;
+      color: #DC2626;
       font-weight: bold;
       margin-left: 1rem;
+      width: auto;
+      @media (max-width: 767.98px) {
+        margin-top: .25rem;
+      }
     `
   }
   ${(props) =>
     props.success &&
     css`
-      color: #4ADE80;
+      color: #15803D;
       font-weight: bold;
       margin-left: 1rem;
+      width: auto;
+      @media (max-width: 767.98px) {
+        margin-top: .25rem;
+      }
     `
   }
 `
@@ -125,7 +141,7 @@ const NewCommentForm = () => {
     })
   }
   if (isOpen) return (
-    <Wrapper>
+    <div>
       <FormWrapper>
         <HeaderWrapper>
           <H2>Dodawanie komentarza</H2>
@@ -171,7 +187,7 @@ const NewCommentForm = () => {
           {sendSuccess && <Label success>Pomyślnie dodano komentarz.</Label>}
         </FormItem>
       </FormWrapper>
-    </Wrapper>
+    </div>
   )
   else return null
 }
