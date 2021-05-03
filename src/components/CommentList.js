@@ -12,7 +12,7 @@ const CommentList = () => {
   const isInitialized = useSelector((state) => state.comments.isInitialized);
   const commentsState = useSelector((state) => state.comments.data);
   if (commentsState.length > 0) return (
-    <ReusableTable>
+    <ReusableTable id="commentsTable">
       <thead>
         <tr>
           <th>ID komentarza</th>

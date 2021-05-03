@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const TableWrapper = styled.div`
@@ -6,6 +7,7 @@ const TableWrapper = styled.div`
   background: #f6f6f6;
   border: 2px solid #bfbfbf;
   border-radius: 1rem;
+  overflow: auto;
 `;
 
 const Table = styled.table`
@@ -52,9 +54,21 @@ const Table = styled.table`
 `;
 
 const ReusableTable = (props) => {
+  const {id} = props;
+  useEffect(() => {
+    const tableFixHead = (e) => {
+      const sT = window.scrollY
+      const tableOffset = document.getElementById(id).offsetTop
+      document.querySelectorAll(`#${id} thead th`).forEach(th => {
+        if (window.scrollY > tableOffset) th.style.transform = `translate3d(0, ${sT - tableOffset}px, 0)`
+        else th.style.transform = `translateY(0px)`
+      })
+    }
+    window.addEventListener("scroll", tableFixHead)
+  }, [id])
   return (
-    <TableWrapper>
-      <Table>{props.children}</Table>
+    <TableWrapper className="tableFixHead">
+      <Table id={id}>{props.children}</Table>
     </TableWrapper>
   );
 };
