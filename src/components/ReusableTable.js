@@ -7,7 +7,7 @@ const TableWrapper = styled.div`
   background: #f6f6f6;
   border: 2px solid #A1A1AA;
   border-radius: 1rem;
-  overflow: auto;
+  overflow-x: auto;
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 `;

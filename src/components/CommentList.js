@@ -6,6 +6,8 @@ import InfoMessage from './InfoMessage'
 const CommentList = () => {
   const isInitialized = useSelector((state) => state.comments.isInitialized);
   const commentsState = useSelector((state) => state.comments.data);
+  const currentPage = useSelector((state) => state.comments.currentPage);
+  const visibleComments = commentsState.slice(currentPage * 20, currentPage * 20 + 20 )
   const tableStyles = `
     th {
       background: #fff;
@@ -60,7 +62,7 @@ const CommentList = () => {
         </tr>
       </thead>
       <tbody>
-        {commentsState.map((comment, index) => {
+        {visibleComments.map((comment, index) => {
           return (
             <SingleComment commentData={comment} key={index}/>
           );

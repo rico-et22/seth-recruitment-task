@@ -7,6 +7,7 @@ import InfoMessage from './components/InfoMessage'
 import NewCommentForm from './components/NewCommentForm'
 import { useDispatch, useSelector } from "react-redux";
 import CommentCount from './components/CommentCount';
+import Pagination from './components/Pagination'
 
 function App() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function App() {
     fetch('https://jsonplaceholder.typicode.com/comments')
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: "comments/added", payload: data })
+        dispatch({ type: "comments/added", payload: {data} })
         dispatch({ type: "comments/initialized" })
       })
       .catch((err) => {
@@ -36,7 +37,12 @@ function App() {
         {error && <InfoMessage status="error" />}
         <CommentCount />
         <NewCommentForm />
-        {!error && !isLoading && <CommentList />}
+        {!error && !isLoading && (
+          <>
+            <CommentList />
+            <Pagination />
+          </>
+        )}
       </Container>
     </div>
   );

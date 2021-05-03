@@ -1,13 +1,16 @@
 const initialState = {
   data: [],
   isLoading: false,
-  isInitialized: false
+  isInitialized: false,
+  pages: 0,
+  currentPage: 0
 };
 const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case "comments/added": {
-      const newState = state.data.concat(action.payload)
-      return {...state, isLoading: false, data: [...new Set(newState)]};
+      const newState = state.data.concat(action.payload.data)
+      const newPageCount = Math.ceil(newState.length / 20)
+      return {...state, isLoading: false, data: [...new Set(newState)], pages: newPageCount, currentPage: action.payload.openPageWithAddedComment ? newPageCount - 1 : state.currentPage}
     }
     case "comments/updated": {
       const mappedData = state.data.map((item) => {
@@ -29,6 +32,8 @@ const commentReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case "comments/initialized":
       return {...state, isInitialized: true}
+    case "comments/pageChanged":
+      return {...state, currentPage: action.payload}
     default:
       return state;
   }

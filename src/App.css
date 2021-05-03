@@ -11,3 +11,30 @@ a {color: #2563EB}
   background: #fafafa;
   min-height: 100vh;
 }
+
+.pagination {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  padding: 2rem 0;
+}
+.pagination li a {
+  cursor: pointer;
+  padding: .25rem;
+  margin: 0 .25rem;
+  color: #333;
+  display: block;
+}
+@media (max-width: 767.98px) {
+  .pagination li a {
+    font-size: .875rem;
+    padding: 0;
+  }
+}
+.pagination li.active a {
+  color: #2563EB;
+}
+.pagination li.disabled a {
+  cursor: not-allowed;
+  opacity: .5;
+}

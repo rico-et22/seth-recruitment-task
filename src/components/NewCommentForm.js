@@ -134,9 +134,12 @@ const NewCommentForm = () => {
       .then((response) => response.json())
       .then((json) => {
         dispatch({ type: "comments/added", payload: {
-          ...json,
-          id: lastCommentId + 1
-        } })
+          data: {
+            ...json,
+            id: lastCommentId + 1
+          },
+          openPageWithAddedComment: true
+        }})
         setSendSuccess(true)
         setNewCommentData({
           postId: 0,
