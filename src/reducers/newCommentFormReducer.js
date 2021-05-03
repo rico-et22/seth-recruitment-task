@@ -1,13 +1,13 @@
 const initialState = {
-  showForm: false
+  showForm: false,
 };
 const newCommentFormReducer = (state = initialState, action) => {
   switch (action.type) {
     case "newCommentForm/show": {
-      return {showForm: true}
+      return { showForm: true };
     }
     case "newCommentForm/hide": {
-      return {showForm: false}
+      return { showForm: false };
     }
     default:
       return state;

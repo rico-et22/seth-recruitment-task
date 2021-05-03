@@ -1,13 +1,16 @@
 import ReusableTable from "./ReusableTable";
 import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
-import InfoMessage from './InfoMessage'
+import InfoMessage from "./InfoMessage";
 
 const CommentList = () => {
   const isInitialized = useSelector((state) => state.comments.isInitialized);
   const commentsState = useSelector((state) => state.comments.data);
   const currentPage = useSelector((state) => state.comments.currentPage);
-  const visibleComments = commentsState.slice(currentPage * 20, currentPage * 20 + 20 )
+  const visibleComments = commentsState.slice(
+    currentPage * 20,
+    currentPage * 20 + 20
+  );
   const tableStyles = `
     th {
       background: #fff;
@@ -47,31 +50,30 @@ const CommentList = () => {
         font-size: .875rem;
       }
     }
-  `
+  `;
 
-  if (commentsState.length > 0) return (
-    <ReusableTable id="commentsTable" tableStyles={tableStyles}>
-      <thead>
-        <tr>
-          <th>ID komentarza</th>
-          <th>ID artykułu</th>
-          <th>Nazwa użytkownika</th>
-          <th>E-mail użytkownika</th>
-          <th>Treść</th>
-          <th>Akcje</th>
-        </tr>
-      </thead>
-      <tbody>
-        {visibleComments.map((comment, index) => {
-          return (
-            <SingleComment commentData={comment} key={index}/>
-          );
-        })}
-      </tbody>
-    </ReusableTable>
-  ); else if (isInitialized) return (
-    <InfoMessage status="noItems" />
-  ); else return null
+  if (commentsState.length > 0)
+    return (
+      <ReusableTable id="commentsTable" tableStyles={tableStyles}>
+        <thead>
+          <tr>
+            <th>ID komentarza</th>
+            <th>ID artykułu</th>
+            <th>Nazwa użytkownika</th>
+            <th>E-mail użytkownika</th>
+            <th>Treść</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          {visibleComments.map((comment, index) => {
+            return <SingleComment commentData={comment} key={index} />;
+          })}
+        </tbody>
+      </ReusableTable>
+    );
+  else if (isInitialized) return <InfoMessage status="noItems" />;
+  else return null;
 };
 
 export default CommentList;

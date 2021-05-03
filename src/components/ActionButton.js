@@ -10,20 +10,20 @@ const Button = styled.button`
     background: #eee;
   }
   &:disabled {
-    opacity: .5;
+    opacity: 0.5;
   }
   &.green {
-    background: #4ADE80;
-    padding: .5rem 1rem;
-    border-color: #86EFAC;
+    background: #4ade80;
+    padding: 0.5rem 1rem;
+    border-color: #86efac;
     font-size: 1rem;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     &:active {
-      background: #BBF7D0;
+      background: #bbf7d0;
     }
   }
   &.comment-tr:not(:last-of-type) {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
