@@ -1,12 +1,7 @@
 import ReusableTable from "./ReusableTable";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import SingleComment from "./SingleComment";
 import InfoMessage from './InfoMessage'
-
-const Wrapper = styled.div`
-  padding: 1rem;
-`
 
 const CommentList = () => {
   const isInitialized = useSelector((state) => state.comments.isInitialized);
