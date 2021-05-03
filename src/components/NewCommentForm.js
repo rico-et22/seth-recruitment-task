@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled, {css} from "styled-components";
 import ActionButton from "./ActionButton";
+import validateEmail from "../helpers/validateEmail"
 
 const FormWrapper = styled.div`
   background: #fff;
@@ -100,45 +101,66 @@ const NewCommentForm = () => {
     email: '',
     body: ''
   })
+  const [newCommentErrors, setNewCommentErrors] = useState({})
   const [sendError, setSendError] = useState(false)
   const [sendSuccess, setSendSuccess] = useState(false)
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
   const dispatch = useDispatch()
   const lastCommentId = useSelector((state) => state.comments.data[state.comments.data.length - 1]?.id)
   const isOpen = useSelector((state) => state.newCommentForm.showForm)
+
   const addComment = () => {
+    setNewCommentErrors({
+      name: false,
+      email: '',
+      body: false
+    })
     setSendError(false)
     setSaveButtonDisabled(true)
     setSendSuccess(false)
-    fetch('https://jsonplaceholder.typicode.com/comments', {
-      method: 'POST',
-      body: JSON.stringify(newCommentData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      dispatch({ type: "comments/added", payload: {
-        ...json,
-        id: lastCommentId + 1
-      } })
-      setSendSuccess(true)
-      setNewCommentData({
-        postId: 0,
-        name: '',
-        email: '',
-        body: ''
+    let emptyName, emptyEmail, invalidEmail, emptyBody
+    if (!newCommentData.name) emptyName = true
+    if (!newCommentData.email) emptyEmail = true
+    if (!validateEmail(newCommentData.email)) invalidEmail = true
+    if (!newCommentData.body) emptyBody = true
+    if (!emptyName && !emptyEmail && !invalidEmail && !emptyBody) {
+      fetch('https://jsonplaceholder.typicode.com/comments', {
+        method: 'POST',
+        body: JSON.stringify(newCommentData),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
       })
-      setTimeout(() => {
-        setSendSuccess(false)
-      }, 3000);
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: "comments/added", payload: {
+          ...json,
+          id: lastCommentId + 1
+        } })
+        setSendSuccess(true)
+        setNewCommentData({
+          postId: 0,
+          name: '',
+          email: '',
+          body: ''
+        })
+        setTimeout(() => {
+          setSendSuccess(false)
+        }, 3000);
+        setSaveButtonDisabled(false)
+      })
+      .catch(() => {
+        setSendError(true)
+        setSaveButtonDisabled(false)
+      })
+    } else {
       setSaveButtonDisabled(false)
-    })
-    .catch(() => {
-      setSendError(true)
-      setSaveButtonDisabled(false)
-    })
+      setNewCommentErrors({
+        name: emptyName,
+        email: emptyEmail ? 'empty' : invalidEmail ? 'invalid' : '',
+        body: emptyBody
+      })
+    }
   }
   if (isOpen) return (
     <div>
@@ -164,6 +186,7 @@ const NewCommentForm = () => {
           onChange={(e) =>
             setNewCommentData({ ...newCommentData, name: e.target.value })
           }/>
+          {newCommentErrors.name && <Label error>Pole nie może być puste.</Label>}
         </FormItem>
         <FormItem>
           <Label>E-mail użytkownika</Label>
@@ -171,6 +194,8 @@ const NewCommentForm = () => {
           onChange={(e) =>
             setNewCommentData({ ...newCommentData, email: e.target.value })
           }/>
+          {newCommentErrors.email === "empty" && <Label error>Pole nie może być puste.</Label>}
+          {newCommentErrors.email === "invalid" && <Label error>Niepoprawny e-mail.</Label>}
         </FormItem>
         <FormItem>
           <Label>Treść</Label>
@@ -178,6 +203,7 @@ const NewCommentForm = () => {
           onChange={(e) =>
             setNewCommentData({ ...newCommentData, body: e.target.value })
           }/>
+          {newCommentErrors.body && <Label error>Pole nie może być puste.</Label>}
         </FormItem>
         <FormItem>
           <ActionButton className="green" onClick={() => addComment()} disabled={saveButtonDisabled}>

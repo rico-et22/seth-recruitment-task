@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import ActionButton from "./ActionButton"
+import validateEmail from "../helpers/validateEmail"
 
 const Input = styled.input`
   font-family: inherit;
@@ -33,6 +34,7 @@ const ErrorMessage = styled.p`
 const SingleComment = (props) => {
   const {postId, id, name, email, body} = props.commentData
   const [editMode, setEditMode] = useState(false)
+  const [editedCommentErrors, setEditedCommentErrors] = useState({})
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
   const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(false)
   const [showEditErrorMessage, setShowEditErrorMessage] = useState(false)
@@ -49,26 +51,45 @@ const SingleComment = (props) => {
     })
   }, [postId, id, name, email, body])
   const saveEditedData = () => {
+    setEditedCommentErrors({
+      name: false,
+      email: '',
+      body: false
+    })
     setShowEditErrorMessage(false)
     setSaveButtonDisabled(true)
-    fetch(`https://jsonplaceholder.typicode.com/comments/${editModeData.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(editModeData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          dispatch({ type: "comments/updated", payload: editModeData })
+    let emptyName, emptyEmail, invalidEmail, emptyBody
+    if (!editModeData.name) emptyName = true
+    if (!editModeData.email) emptyEmail = true
+    if (!validateEmail(editModeData.email)) invalidEmail = true
+    if (!editModeData.body) emptyBody = true
+    if (!emptyName && !emptyEmail && !invalidEmail && !emptyBody) {
+      fetch(`https://jsonplaceholder.typicode.com/comments/${editModeData.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(editModeData),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            dispatch({ type: "comments/updated", payload: editModeData })
+            setSaveButtonDisabled(false)
+            setEditMode(false)
+          }
+        })
+        .catch(() => {
+          setShowEditErrorMessage(true)
           setSaveButtonDisabled(false)
-          setEditMode(false)
-        }
+        })
+    } else {
+      setSaveButtonDisabled(false)
+      setEditedCommentErrors({
+        name: emptyName,
+        email: emptyEmail ? 'empty' : invalidEmail ? 'invalid' : '',
+        body: emptyBody
       })
-      .catch(() => {
-        setShowEditErrorMessage(true)
-        setSaveButtonDisabled(false)
-      })
+    }
   }
   const deleteComment = () => {
     setShowDeleteErrorMessage(false)
@@ -109,6 +130,7 @@ const SingleComment = (props) => {
             setEditModeData({ ...editModeData, name: e.target.value })
           }
         />
+        {editedCommentErrors.name && <ErrorMessage>Pole nie może być puste.</ErrorMessage>}
       </td>
       <td>
         <Input
@@ -118,6 +140,8 @@ const SingleComment = (props) => {
             setEditModeData({ ...editModeData, email: e.target.value })
           }
         />
+        {editedCommentErrors.email === "empty" && <ErrorMessage>Pole nie może być puste.</ErrorMessage>}
+        {editedCommentErrors.email === "invalid" && <ErrorMessage>Niepoprawny e-mail.</ErrorMessage>}
       </td>
       <td>
         <TextArea
@@ -127,6 +151,7 @@ const SingleComment = (props) => {
             setEditModeData({ ...editModeData, body: e.target.value })
           }
         />
+        {editedCommentErrors.body && <ErrorMessage>Pole nie może być puste.</ErrorMessage>}
         {showEditErrorMessage && <ErrorMessage>Błąd zapisu.</ErrorMessage>}
       </td>
       <td>
