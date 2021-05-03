@@ -1,6 +1,19 @@
+# Comment Management - admin panel
+A recruitment task for Seth Software
+
+# Features
+- View, edit, create and delete comments
+- Uses JSON Placeholder as a data source
+- Pagination
+- Data displayed in a table (horizontally scrollable on smaller devices)
+- Form validation
+- Created with React, utilizes styled-components, react-paginate and Redux for state management
+- UI in Polish language
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+** Don't forget to install Yarn first!**
 
 ## Available Scripts
 
