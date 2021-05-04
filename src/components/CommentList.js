@@ -20,8 +20,21 @@ const CommentList = () => {
       background: #1E293B;
       color: #eee;
     }
+    th:first-of-type,
+    th:nth-of-type(2) {
+      width: 7%;
+    }
+    th:nth-of-type(3) {
+      width: 20%;
+    }
     th:nth-of-type(4) {
-      width: 1rem;
+      width: 20%;
+    }
+    th:nth-of-type(5) {
+      width: 40%;
+    }
+    th:nth-of-type(6) {
+      width: 6%;
     }
     tr:nth-of-type(odd) {
       background: #fafafa;
